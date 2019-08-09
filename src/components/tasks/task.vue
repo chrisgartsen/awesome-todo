@@ -6,7 +6,7 @@
     <q-item-section>
       <q-item-label :class="{'text-strikethrough' : task.completed}">{{ task.name }}</q-item-label>
     </q-item-section>
-    <q-item-section side>
+    <q-item-section side v-if="task.dueDate">
       <div class="row">
         <div class="column justify-center">
           <q-icon name="event" size="18px" class="q-mr-xs"/>

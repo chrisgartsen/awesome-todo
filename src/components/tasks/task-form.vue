@@ -8,7 +8,7 @@
       </q-card-section>
       <q-card-section>
         <div class="row q-mb-sm">
-          <q-input outlined v-model="task.name" class="col" label="Name" :rules="[val => !!val || 'Name is required']"/>
+          <q-input outlined v-model="task.name" class="col" label="Name" :rules="[val => !!val || 'Name is required']" autofocus clearable />
         </div>
         <div class="row q-mb-sm">
           <q-input outlined v-model="task.dueDate" label="Due date">
@@ -21,7 +21,7 @@
             </template>
           </q-input>
         </div>
-        <div class="row q-mb-sm">
+        <div class="row q-mb-sm" v-if="task.dueDate">
           <q-input outlined v-model="task.dueTime" label="Due time">
             <template v-slot:append>
               <q-icon name="access_time" class="cursor-pointer">

@@ -1,7 +1,7 @@
 <template>
   <q-page class="q-pa-md">
-    <q-list bordered separator>
-      <task v-for="(task, key) in tasks" :key="key" :task="task" :id="key"> </task>
+    <q-list bordered separator v-if="Object.keys(tasks).length">
+      <task v-for="(task, key) in tasks" :key="key" :task="task" :id="key" > </task>
     </q-list>
 
     <div class="absolute-bottom text-center q-mb-lg">
