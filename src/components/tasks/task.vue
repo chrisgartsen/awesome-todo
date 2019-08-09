@@ -17,7 +17,6 @@
         </div>
       </div>
     </q-item-section>
-
     <q-item-section side>
       <q-btn flat round dense color="negative" icon="delete" @click.stop="promptDelete(id)">
       </q-btn>
