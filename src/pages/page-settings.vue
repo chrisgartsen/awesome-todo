@@ -1,6 +1,6 @@
 <template>
-  <q-page class="flex flex-center">
-    <img alt="Quasar logo" src="~assets/quasar-logo-full.svg">
+  <q-page padding>
+    <p>Settings Page</p>
   </q-page>
 </template>
 
@@ -9,6 +9,6 @@
 
 <script>
 export default {
-  name: 'PageIndex'
+  name: 'page-settings'
 }
 </script>

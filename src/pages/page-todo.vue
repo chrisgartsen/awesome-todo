@@ -1,6 +1,6 @@
 <template>
-  <q-page class="flex flex-center">
-    <img alt="Quasar logo" src="~assets/quasar-logo-full.svg">
+  <q-page padding>
+    <p>Todo Page</p>
   </q-page>
 </template>
 
@@ -9,6 +9,15 @@
 
 <script>
 export default {
-  name: 'PageIndex'
+  name: 'page-todo',
+  data() {
+    return {
+      tasks: [
+        { id: 'ID1', name: 'Wash Car', completed: false },
+        { id: 'ID2', name: 'Buy Groceries', completed: false },
+        { id: 'ID3', name: 'Get bananas', completed: false },
+      ]
+    }
+  }
 }
 </script>
