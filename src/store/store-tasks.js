@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import { uid } from 'quasar'
 
 const state = {
   tasks: {
@@ -20,6 +21,9 @@ const mutations = {
   },
   deleteTask(state, id) {
     Vue.delete(state.tasks, id)
+  },
+  createTask(state, payload) {
+    Vue.set(state.tasks, payload.id, payload.task)
   }
 }
 
@@ -29,6 +33,14 @@ const actions = {
   },
   deleteTask({commit}, id) {
     commit('deleteTask', id)
+  },
+  createTask({commit}, task) {
+    const taskId = uid()
+    const payload = {
+      id: taskId,
+      task: task
+    }
+    commit('createTask', payload)
   }
 }
 

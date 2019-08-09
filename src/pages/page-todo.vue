@@ -5,8 +5,12 @@
     </q-list>
 
     <div class="absolute-bottom text-center q-mb-lg">
-      <q-btn round size="24px" icon="add" color="primary"></q-btn>
+      <q-btn round size="24px" icon="add" color="primary" @click="showDialog = true"></q-btn>
     </div>
+
+    <q-dialog v-model="showDialog">
+      <task-form @close="showDialog = false"/>
+    </q-dialog>
  
   </q-page>
 </template>
@@ -17,14 +21,21 @@
 <script>
 import { mapGetters } from 'vuex'
 import task from '../components/tasks/task'
+import taskForm from '../components/tasks/task-form'
 
 export default {
   name: 'page-todo',
+  data() {
+    return {
+      showDialog: false
+    }
+  },
   computed: {
     ...mapGetters('tasks', ['tasks']) 
   },
   components: {
-    task
+    task,
+    taskForm
   }
 }
 </script>
