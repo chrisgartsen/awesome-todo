@@ -18,23 +18,38 @@
       </div>
     </q-item-section>
     <q-item-section side>
-      <q-btn flat round dense color="negative" icon="delete" @click.stop="promptDelete(id)">
-      </q-btn>
+      <div class="row">
+        <q-btn flat round dense color="primary" icon="edit"    @click.stop="showEditTask = true"/>
+        <q-btn flat round dense color="negative" icon="delete" @click.stop="promptDelete(id)"/>
+      </div>
     </q-item-section>
+
+    <q-dialog v-model="showEditTask">
+      <edit-task-form @close="showEditTask = false" :task="task" :id="id" />
+    </q-dialog>
   </q-item>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
+import editTaskForm from '../../components/tasks/edit-task-form'
 
 export default {
   name: 'task',
+  components: {
+    editTaskForm
+  },
   props: {
     task: {
       required: true
     },
     id: {
       required: true
+    }
+  },
+  data() {
+    return {
+      showEditTask: false
     }
   },
   methods: {

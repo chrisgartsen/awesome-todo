@@ -21,7 +21,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import task from '../components/tasks/task'
-import taskForm from '../components/tasks/task-form'
+import taskForm from '../components/tasks/add-task-form'
 
 export default {
   name: 'page-todo',
