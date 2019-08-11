@@ -7,23 +7,41 @@ const state = {
     'ID2': { name: 'Buy Groceries', completed: false, dueDate: '2019/04/11', dueTime: '17:30' },
     'ID3': { name: 'Get bananas', completed: false, dueDate: '2019/06/20', dueTime: '15:00' },
   },
-  search: ''
+  search: '',
+  sort: 'name'
 }
 
 const getters = {
-  tasksFiltered(state) {
+  tasksSorted(state) {
+    const tasksSorted = {}
+    const keysOrdered = Object.keys(state.tasks)
+
+    keysOrdered.sort((a,b) =>{
+      const taskAProp = state.tasks[a][state.sort].toLowerCase()
+      const taskBProp = state.tasks[b][state.sort].toLowerCase()
+      if(taskAProp > taskBProp) return 1
+      if(taskAProp < taskBProp) return -1
+      return 0
+    })
+
+    keysOrdered.forEach((key) => tasksSorted[key] = state.tasks[key])
+
+    return tasksSorted
+  },
+  tasksFiltered(state, getters) {
     const tasksFiltered = {}
+    const tasksSorted = getters.tasksSorted
 
     if(state.search) {
-      Object.keys(state.tasks).forEach((key) => {
-        const task = state.tasks[key]
+      Object.keys(tasksSorted).forEach((key) => {
+        const task = tasksSorted[key]
         if(task.name.toLowerCase().includes(state.search.toLowerCase())) {
           tasksFiltered[key] = task
         }
       })
       return tasksFiltered
     } else {
-      return state.tasks
+      return tasksSorted
     }
   },
   tasksTodo(state, getters) {
@@ -34,7 +52,8 @@ const getters = {
       if(!task.completed) tasks[key] = task
     })
     return tasks
-  } ,
+  },
+
   tasksCompleted(state, getters) {
     const tasks = {}
     const tasksFiltered = getters.tasksFiltered
@@ -46,6 +65,9 @@ const getters = {
   },   
   search(state) {
     return state.search
+  },
+  sort(state) {
+    return state.sort
   }
 }
 
@@ -61,6 +83,9 @@ const mutations = {
   },
   setSearch(state, value) {
     state.search = value
+  },
+  setSort(state, value) {
+    state.sort = value
   }
 }
 
@@ -81,6 +106,9 @@ const actions = {
   },
   setSearch({commit}, value) {
     commit('setSearch', value)
+  },
+  setSort({commit}, value) {
+    commit('setSort', value)
   }
 }
 
