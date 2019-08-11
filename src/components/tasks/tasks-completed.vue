@@ -1,10 +1,12 @@
 <template>
-  <div v-if="Object.keys(tasks).length">
-    <list-header headerColor="bg-green-4">Completed</list-header>
-    <q-list bordered separator>
-      <task v-for="(task, key) in tasks" :key="key" :task="task" :id="key" > </task>
-    </q-list>
-  </div>
+  <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+    <div v-if="Object.keys(tasks).length">
+      <list-header headerColor="bg-green-4">Completed</list-header>
+      <q-list bordered separator>
+        <task v-for="(task, key) in tasks" :key="key" :task="task" :id="key" > </task>
+      </q-list>
+    </div>
+  </transition>
 </template>
 
 <script>

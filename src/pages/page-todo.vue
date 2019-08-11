@@ -1,18 +1,23 @@
 <template>
-  <q-page class="q-pa-md">
-    <div class="row q-mb-lg">
-      <search />
-      <sort/>
-    </div>
+  <q-page>
 
-    <q-banner class="bg-grey-3 no-tasks" v-if="showNoTasksFound">No tasks found.</q-banner>
+    <div class="q-pa-md absolute full-width full-height column">
+      <div class="row q-mb-lg">
+        <search />
+        <sort/>
+      </div>
 
-    <no-tasks v-if="showNoTasks"/>
-    <tasks-todo :tasks="tasksTodo" class="q-mt-lg"/>
-    <tasks-completed :tasks="tasksCompleted" class="q-mt-lg" />
+      <q-banner class="bg-grey-3 no-tasks" v-if="showNoTasksFound">No tasks found.</q-banner>
 
-    <div class="absolute-bottom text-center q-mb-lg">
-      <q-btn round size="24px" icon="add" color="primary" @click="showDialog = true"></q-btn>
+      <q-scroll-area class="q-scroll-area-tasks">
+        <no-tasks v-if="showNoTasks"/>
+        <tasks-todo :tasks="tasksTodo" class="q-mt-lg"/>
+        <tasks-completed :tasks="tasksCompleted" class="q-mt-lg q-mb-xl" />
+      </q-scroll-area>
+
+      <div class="absolute-bottom text-center q-mb-lg no-pointer-events">
+        <q-btn round size="24px" icon="add" color="primary" class="all-pointer-events" @click="showDialog = true"></q-btn>
+      </div>
     </div>
 
     <q-dialog v-model="showDialog">
@@ -67,5 +72,10 @@ export default {
 <style>
   .text-strikethrough {
     text-decoration: line-through;
+  }
+
+  .q-scroll-area-tasks {
+    display: flex;
+    flex-grow: 1;
   }
 </style>

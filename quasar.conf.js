@@ -19,7 +19,6 @@ module.exports = function (ctx) {
       // 'eva-icons',
       // 'themify',
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
-
       'roboto-font', // optional, you are not bound to it
       'material-icons' // optional, you are not bound to it
     ],
@@ -27,9 +26,7 @@ module.exports = function (ctx) {
     framework: {
       // iconSet: 'ionicons-v4',
       // lang: 'de', // Quasar language
-
       // all: true, // --- includes everything; for dev only!
-
       components: [
         'QLayout',
         'QHeader',
@@ -61,7 +58,8 @@ module.exports = function (ctx) {
         'QPopupProxy',
         'QForm',
         'QBanner',
-        'QSelect'
+        'QSelect',
+        'QScrollArea'
       ],
 
       directives: [
@@ -97,7 +95,7 @@ module.exports = function (ctx) {
     },
 
     // animations: 'all', // --- includes all animations
-    animations: [],
+    animations: ['fadeIn', 'fadeOut'],
 
     ssr: {
       pwa: false
