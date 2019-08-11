@@ -1,7 +1,14 @@
 <template>
   <q-page class="q-pa-md">
+    <div class="row q-mb-lg">
+      <search />
+    </div>
 
-    <no-tasks v-if="!Object.keys(tasksTodo).length"/>
+    <p v-if="search && !Object.keys(tasksTodo).length && !Object.keys(tasksCompleted).length ">
+      No tasks found.
+    </p>
+
+    <no-tasks v-if="!Object.keys(tasksTodo).length && !search"/>
     <tasks-todo :tasks="tasksTodo" class="q-mt-lg"/>
     <tasks-completed :tasks="tasksCompleted" class="q-mt-lg" />
 
@@ -26,6 +33,7 @@ import taskForm from '../components/tasks/add-task-form'
 import tasksTodo from '../components/tasks/tasks-todo'
 import tasksCompleted from '../components/tasks/tasks-completed'
 import noTasks from '../components/tasks/no-tasks'
+import search from '../components/tasks/search'
 
 export default {
   name: 'page-todo',
@@ -35,13 +43,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('tasks', ['tasksTodo', 'tasksCompleted']) 
+    ...mapGetters('tasks', ['tasksTodo', 'tasksCompleted', 'search']) 
   },
   components: {
     taskForm,
     tasksTodo,
     tasksCompleted,
-    noTasks
+    noTasks,
+    search
   },
   mounted() {
     this.$root.$on('showAddTask', () => {

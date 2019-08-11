@@ -6,26 +6,47 @@ const state = {
     'ID1': { name: 'Wash Car', completed: false, dueDate: '2019/05/18', dueTime: '18:30' },
     'ID2': { name: 'Buy Groceries', completed: false, dueDate: '2019/04/11', dueTime: '17:30' },
     'ID3': { name: 'Get bananas', completed: false, dueDate: '2019/06/20', dueTime: '15:00' },
-  }
+  },
+  search: ''
 }
 
 const getters = {
-  tasksTodo(state) {
+  tasksFiltered(state) {
+    const tasksFiltered = {}
+
+    if(state.search) {
+      Object.keys(state.tasks).forEach((key) => {
+        const task = state.tasks[key]
+        if(task.name.toLowerCase().includes(state.search.toLowerCase())) {
+          tasksFiltered[key] = task
+        }
+      })
+      return tasksFiltered
+    } else {
+      return state.tasks
+    }
+  },
+  tasksTodo(state, getters) {
     const tasks = {}
-    Object.keys(state.tasks).forEach((key) => {
-      const task = state.tasks[key]
+    const tasksFiltered = getters.tasksFiltered
+    Object.keys(tasksFiltered).forEach((key) => {
+      const task = tasksFiltered[key]
       if(!task.completed) tasks[key] = task
     })
     return tasks
   } ,
-  tasksCompleted(state) {
+  tasksCompleted(state, getters) {
     const tasks = {}
-    Object.keys(state.tasks).forEach((key) => {
-      const task = state.tasks[key]
+    const tasksFiltered = getters.tasksFiltered
+    Object.keys(tasksFiltered).forEach((key) => {
+      const task = tasksFiltered[key]
       if(task.completed) tasks[key] = task
     })
     return tasks
-  }   
+  },   
+  search(state) {
+    return state.search
+  }
 }
 
 const mutations = {
@@ -37,6 +58,9 @@ const mutations = {
   },
   createTask(state, payload) {
     Vue.set(state.tasks, payload.id, payload.task)
+  },
+  setSearch(state, value) {
+    state.search = value
   }
 }
 
@@ -54,6 +78,9 @@ const actions = {
       task: task
     }
     commit('createTask', payload)
+  },
+  setSearch({commit}, value) {
+    commit('setSearch', value)
   }
 }
 
