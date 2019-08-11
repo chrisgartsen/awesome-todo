@@ -10,9 +10,22 @@ const state = {
 }
 
 const getters = {
-  tasks(state) {
-    return state.tasks
-  }
+  tasksTodo(state) {
+    const tasks = {}
+    Object.keys(state.tasks).forEach((key) => {
+      const task = state.tasks[key]
+      if(!task.completed) tasks[key] = task
+    })
+    return tasks
+  } ,
+  tasksCompleted(state) {
+    const tasks = {}
+    Object.keys(state.tasks).forEach((key) => {
+      const task = state.tasks[key]
+      if(task.completed) tasks[key] = task
+    })
+    return tasks
+  }   
 }
 
 const mutations = {

@@ -1,8 +1,9 @@
 <template>
   <q-page class="q-pa-md">
-    <q-list bordered separator v-if="Object.keys(tasks).length">
-      <task v-for="(task, key) in tasks" :key="key" :task="task" :id="key" > </task>
-    </q-list>
+
+    <no-tasks v-if="!Object.keys(tasksTodo).length"/>
+    <tasks-todo :tasks="tasksTodo" class="q-mt-lg"/>
+    <tasks-completed :tasks="tasksCompleted" class="q-mt-lg" />
 
     <div class="absolute-bottom text-center q-mb-lg">
       <q-btn round size="24px" icon="add" color="primary" @click="showDialog = true"></q-btn>
@@ -20,8 +21,11 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import task from '../components/tasks/task'
+
 import taskForm from '../components/tasks/add-task-form'
+import tasksTodo from '../components/tasks/tasks-todo'
+import tasksCompleted from '../components/tasks/tasks-completed'
+import noTasks from '../components/tasks/no-tasks'
 
 export default {
   name: 'page-todo',
@@ -31,11 +35,18 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('tasks', ['tasks']) 
+    ...mapGetters('tasks', ['tasksTodo', 'tasksCompleted']) 
   },
   components: {
-    task,
-    taskForm
+    taskForm,
+    tasksTodo,
+    tasksCompleted,
+    noTasks
+  },
+  mounted() {
+    this.$root.$on('showAddTask', () => {
+      this.showDialog = true
+    })
   }
 }
 </script>
