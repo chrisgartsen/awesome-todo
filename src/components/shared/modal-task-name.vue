@@ -13,6 +13,8 @@
 </template>
 
 <script>
+import { selectAll } from 'src/utils/directive-select-all'
+
 export default {
   name: 'modal-task-name',
   props: {
@@ -21,14 +23,7 @@ export default {
     }
   },
   directives: {
-    selectAll: {
-      inserted(el) {
-        const input = el.querySelector('.q-field__native')
-        input.addEventListener('focus', () =>{
-          if(input.value.length) input.select()
-        })
-      }
-    }
+    selectAll
   }
 }
 </script>

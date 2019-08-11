@@ -1,5 +1,5 @@
 <template>
-  <q-input v-model="searchField" label="Search" outlined class="col">
+  <q-input v-model="searchField" label="Search" outlined class="col" v-select-all >
     <template v-slot:append>
       <q-icon v-if="searchField !== ''" name="close" @click="searchField = ''" class="cursor-pointer" />
       <q-icon name="search" />
@@ -9,6 +9,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { selectAll } from 'src/utils/directive-select-all'
 
 export default {
   name: 'search',
@@ -22,6 +23,9 @@ export default {
         this.$store.dispatch('tasks/setSearch', newVal)
       }
     }
+  },
+  directives: {
+    selectAll
   }
 }
 </script>
