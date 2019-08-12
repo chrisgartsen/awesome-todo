@@ -13,7 +13,7 @@
         </div>
         <div class="column">
           <q-item-label caption class="row justify-end">{{ task.dueDate | formatDate }}</q-item-label>
-          <q-item-label caption class="row justify-end"><small>{{ task.dueTime }}</small></q-item-label>
+          <q-item-label caption class="row justify-end"><small>{{ taskDueTime }}</small></q-item-label>
         </div>
       </div>
     </q-item-section>
@@ -34,8 +34,7 @@
 import { date } from 'quasar'
 const { formatDate } = date
 
-import { mapGetters } from 'vuex'
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import editTaskForm from '../../components/tasks/edit-task-form'
 
 export default {
@@ -57,7 +56,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('tasks', ['search'])
+    ...mapGetters('tasks', ['search']),
+    ...mapGetters('settings', ['settings']),
+    taskDueTime() {
+      if(this.settings.show12HourTimeFormat) {
+        return formatDate(this.task.dueDate + ' ' + this.task.dueTime, 'h:mmA')
+      }
+      return this.task.dueTime
+    }
   },
   methods: {
     ...mapActions('tasks', ['updateTask', 'deleteTask']),

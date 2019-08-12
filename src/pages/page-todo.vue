@@ -12,7 +12,7 @@
       <q-scroll-area class="q-scroll-area-tasks">
         <no-tasks v-if="showNoTasks"/>
         <tasks-todo :tasks="tasksTodo" class="q-mt-lg"/>
-        <tasks-completed :tasks="tasksCompleted" class="q-mt-lg q-mb-xl" />
+        <tasks-completed :tasks="tasksCompleted" class="q-mb-xl" :class="{'q-mt-lg': !this.settings.showTasksInOneList }"/>
       </q-scroll-area>
 
       <div class="absolute-bottom text-center q-mb-lg no-pointer-events">
@@ -46,11 +46,14 @@ export default {
   },
   computed: {
     ...mapGetters('tasks', ['tasksTodo', 'tasksCompleted', 'search']),
+    ...mapGetters('settings', ['settings']),
     showNoTasks() {
-      return !Object.keys(this.tasksTodo).length && !this.search
+      return !Object.keys(this.tasksTodo).length && !this.search 
+                                                 && !this.settings.showTasksInOneList
     },
     showNoTasksFound() {
-      return this.search && !Object.keys(this.tasksTodo).length && !Object.keys(this.tasksCompleted).length
+      return this.search && !Object.keys(this.tasksTodo).length 
+                         && !Object.keys(this.tasksCompleted).length
     }
   },
   components: {
