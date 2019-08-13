@@ -3,6 +3,7 @@
     <q-header elevated>
       <q-toolbar>
         <q-toolbar-title class="absolute-center">Awesome Todo</q-toolbar-title>
+        <q-btn icon-right="account_circle" flat class="absolute-right" label="Login" to="/auth" />
       </q-toolbar>
     </q-header>
 
