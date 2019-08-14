@@ -34,6 +34,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'register',
   props: {
@@ -51,11 +53,14 @@ export default {
     }
   },
   methods: {
+    ...mapActions('auth', ['registerUser', 'loginUser']),
     onSubmit() {
       if(this.tab === 'login') {
         console.log("Submitting login")
+        this.loginUser(this.formData)
       } else {
         console.log("Submitting register")
+        this.registerUser(this.formData)
       }
     },
     isValidEmail(email) {

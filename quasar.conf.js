@@ -1,11 +1,14 @@
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
 
+const env = require('quasar-dotenv').config()
+
 module.exports = function (ctx) {
   return {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     boot: [
+      'firebase'
     ],
 
     css: [
@@ -85,6 +88,7 @@ module.exports = function (ctx) {
     build: {
       scopeHoisting: true,
       vueRouterMode: 'history',
+      env: env,
       // vueCompiler: true,
       // gzip: true,
       // analyze: true,
