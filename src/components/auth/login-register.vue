@@ -4,7 +4,8 @@
     <q-banner class="bg-grey-3 col">
       <template v-slot:avatar>
         <q-icon name="account_circle" color="primary" class="q-mr-md" />
-        {{ tab | titleCase }} to access your Awesome Todos
+        {{ tab | titleCase }} to access your Awesome Todos. <br/>
+        This is a sandbox application, not intended for actual use!
       </template>
     </q-banner>
   </div>
