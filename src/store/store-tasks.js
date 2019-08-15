@@ -1,12 +1,10 @@
 import Vue from 'vue'
 import { uid } from 'quasar'
 
+import { firebaseDB, firebaseAuth } from 'boot/firebase'
+
 const state = {
-  tasks: {
-    'ID1': { name: 'Wash Car', completed: false, dueDate: '2019/05/18', dueTime: '18:30' },
-    'ID2': { name: 'Buy Groceries', completed: false, dueDate: '2019/04/11', dueTime: '17:30' },
-    'ID3': { name: 'Get bananas', completed: false, dueDate: '2019/06/20', dueTime: '15:00' },
-  },
+  tasks: {},
   search: '',
   sort: 'name'
 }
@@ -109,6 +107,33 @@ const actions = {
   },
   setSort({commit}, value) {
     commit('setSort', value)
+  },
+  fbReadData({commit}) {
+    console.log("READING...")
+    const userTasks = firebaseDB.ref('tasks/' + firebaseAuth.currentUser.uid)
+    
+    userTasks.on('child_added', (snapshot) => {
+      const task = snapshot.val()
+      const payload = {
+        id: snapshot.key,
+        task: task
+      }
+      commit('createTask', payload)
+    })
+
+    userTasks.on('child_changed', (snapshot) => {
+      const task = snapshot.val() 
+      const payload = {
+        id: snapshot.key,
+        updates: task
+      }
+      commit('updateTask', payload)
+    })
+
+    userTasks.on('child_removed', (snapshot) => {
+      commit('deleteTask', snapshot.key)
+    })
+
   }
 }
 

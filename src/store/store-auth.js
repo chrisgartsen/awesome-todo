@@ -1,4 +1,5 @@
 import { firebaseAuth } from 'boot/firebase'
+import { dispatch } from 'C:/Users/Chris Gartsen/AppData/Local/Microsoft/TypeScript/3.5/node_modules/rxjs/internal/observable/range';
 
 const state = {
   loggedIn: false
@@ -39,10 +40,13 @@ const actions = {
         console.log(error.message)
       })
   },
-  handleAuthStateChange({commit}) {
+  handleAuthStateChange({commit, dispatch}) {
     firebaseAuth.onAuthStateChanged((user) => {
       if(user) {
         commit('setLoggedIn', true)
+        dispatch('tasks/fbReadData', null, {
+          root: true
+        } )
         this.$router.push('/')
       } else {
         commit('setLoggedIn', false)
