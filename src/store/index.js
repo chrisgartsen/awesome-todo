@@ -7,7 +7,7 @@ import auth     from './store-auth'
 
 Vue.use(Vuex)
 
-export default function (/* { ssrContext } */) {
+export default () => {
   const Store = new Vuex.Store({
     modules: {
       tasks,
