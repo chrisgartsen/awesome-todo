@@ -51,7 +51,6 @@ const getters = {
     })
     return tasks
   },
-
   tasksCompleted(state, getters) {
     const tasks = {}
     const tasksFiltered = getters.tasksFiltered
@@ -95,12 +94,7 @@ const actions = {
     commit('deleteTask', id)
   },
   createTask({commit}, task) {
-    const taskId = uid()
-    const payload = {
-      id: taskId,
-      task: task
-    }
-    commit('createTask', payload)
+    commit('createTask', { id: uid(), task: task })
   },
   setSearch({commit}, value) {
     commit('setSearch', value)
@@ -109,31 +103,21 @@ const actions = {
     commit('setSort', value)
   },
   fbReadData({commit}) {
-    console.log("READING...")
     const userTasks = firebaseDB.ref('tasks/' + firebaseAuth.currentUser.uid)
     
     userTasks.on('child_added', (snapshot) => {
       const task = snapshot.val()
-      const payload = {
-        id: snapshot.key,
-        task: task
-      }
-      commit('createTask', payload)
+      commit('createTask', { id: snapshot.key, task: task })
     })
 
     userTasks.on('child_changed', (snapshot) => {
       const task = snapshot.val() 
-      const payload = {
-        id: snapshot.key,
-        updates: task
-      }
-      commit('updateTask', payload)
+      commit('updateTask', { id: snapshot.key, updates: task })
     })
 
     userTasks.on('child_removed', (snapshot) => {
       commit('deleteTask', snapshot.key)
     })
-
   }
 }
 
