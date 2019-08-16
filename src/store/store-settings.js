@@ -19,9 +19,6 @@ const mutations = {
   },
   setShowTasksInOneList(state, value) {
     state.settings.showTasksInOneList = value
-  },
-  setSettings(state, settings) {
-    Object.assign(state.settings, settings)
   }
 }
 
@@ -39,7 +36,10 @@ const actions = {
   },
   loadSettings({commit}) {
     const settings = LocalStorage.getItem('settings')
-    if(settings) commit('setSettings', settings)
+    if(settings) {
+      commit('setShow12HourTimeFormat', settings.show12HourTimeFormat)
+      commit('setShowTasksInOneList', settings.showTasksInOneList)
+    }
   }
 }
 
