@@ -1,5 +1,4 @@
 import { firebaseAuth } from 'boot/firebase'
-import { dispatch } from 'C:/Users/Chris Gartsen/AppData/Local/Microsoft/TypeScript/3.5/node_modules/rxjs/internal/observable/range';
 
 const state = {
   loggedIn: false
