@@ -57,10 +57,8 @@ export default {
     ...mapActions('auth', ['registerUser', 'loginUser']),
     onSubmit() {
       if(this.tab === 'login') {
-        console.log("Submitting login")
         this.loginUser(this.formData)
       } else {
-        console.log("Submitting register")
         this.registerUser(this.formData)
       }
     },

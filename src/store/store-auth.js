@@ -1,6 +1,8 @@
 import { firebaseAuth } from 'boot/firebase'
 import { LocalStorage } from 'quasar'
 
+import { showErrorMessage } from 'src/utils/function-show-error'
+
 const state = {
   loggedIn: false
 }
@@ -24,6 +26,7 @@ const actions = {
         console.log("Login", response)
       })
       .catch(error => {
+        showErrorMessage(error.message)
         console.log(error.message)
       })
   },
@@ -31,12 +34,12 @@ const actions = {
     firebaseAuth.signOut()
   },
   registerUser({commit}, payload) {
-    console.log(payload)
     firebaseAuth.createUserWithEmailAndPassword(payload.email, payload.password)
       .then(response => {
         console.log("Register", response)
       })
       .catch(error => {
+        showErrorMessage(error.message)
         console.log(error.message)
       })
   },
@@ -45,9 +48,7 @@ const actions = {
       if(user) {
         commit('setLoggedIn', true)
         LocalStorage.set('loggedin', true)
-        dispatch('tasks/fbReadData', null, {
-          root: true
-        } )
+        dispatch('tasks/fbReadData', null, { root: true })
         this.$router.push('/')
       } else {
         commit('setLoggedIn', false)
