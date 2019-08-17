@@ -13,8 +13,6 @@ const firebaseConfig = {
   appId: process.env.APP_ID
 };
 
-//console.log(firebaseConfig)
-
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 const firebaseAuth = firebaseApp.auth()
