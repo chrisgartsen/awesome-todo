@@ -87,14 +87,20 @@ const mutations = {
 }
 
 const actions = {
-  updateTask({commit}, payload) {
-    commit('updateTask', payload)
+  updateTask({}, payload) {
+    const userId = firebaseAuth.currentUser.uid
+    const ref = firebaseDB.ref('tasks/' + userId + '/' + payload.id)
+    ref.update(payload.updates)
   },
-  deleteTask({commit}, id) {
-    commit('deleteTask', id)
+  deleteTask({}, id) {
+    const userId = firebaseAuth.currentUser.uid
+    const ref = firebaseDB.ref('tasks/' + userId + '/' + id)
+    ref.remove()
   },
-  createTask({commit}, task) {
-    commit('createTask', { id: uid(), task: task })
+  createTask({}, task) {
+    const userId = firebaseAuth.currentUser.uid
+    const ref = firebaseDB.ref('tasks/' + userId + '/' + uid())
+    ref.set(task)
   },
   setSearch({commit}, value) {
     commit('setSearch', value)

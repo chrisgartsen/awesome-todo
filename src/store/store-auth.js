@@ -20,34 +20,29 @@ const mutations = {
 }
 
 const actions = {
-  loginUser({commit}, payload) {
+  async loginUser({}, payload) {
     Loading.show()
-    firebaseAuth.signInWithEmailAndPassword(payload.email, payload.password) 
-      .then(response => {
-        Loading.hide()
-        console.log("Login", response)
-      })
-      .catch(error => {
-        Loading.hide()
-        showErrorMessage(error.message)
-        console.log(error.message)
-      })
+    try {
+      await firebaseAuth.signInWithEmailAndPassword(payload.email, payload.password) 
+    } catch(error) {
+      showErrorMessage(error.message)
+    } finally {
+      Loading.hide()
+    }
   },
-  logoutUser({commit}) {
+  logoutUser({}) {
     firebaseAuth.signOut()
   },
-  registerUser({commit}, payload) {
+  async registerUser({}, payload) {
     Loading.show()
-    firebaseAuth.createUserWithEmailAndPassword(payload.email, payload.password)
-      .then(response => {
-        Loading.hide()
-        console.log("Register", response)
-      })
-      .catch(error => {
-        Loading.hide()
-        showErrorMessage(error.message)
-        console.log(error.message)
-      })
+    try {
+      await firebaseAuth.createUserWithEmailAndPassword(payload.email, payload.password)
+      console.log('Created user', firebaseAuth.currentUser.email)
+    } catch (error) {
+      showErrorMessage(error.message)
+    } finally {
+      Loading.hide()
+    }
   },
   handleAuthStateChange({commit, dispatch}) {
     firebaseAuth.onAuthStateChanged((user) => {
