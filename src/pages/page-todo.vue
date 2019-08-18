@@ -1,24 +1,32 @@
 <template>
   <q-page>
 
-    <div class="q-pa-md absolute full-width full-height column">
-      <div class="row q-mb-lg">
-        <search />
-        <sort/>
+    <template v-if="tasksDownloaded"> 
+      <div class="q-pa-md absolute full-width full-height column">
+        <div class="row q-mb-lg">
+          <search />
+          <sort/>
+        </div>
+
+        <q-banner class="bg-grey-3 no-tasks" v-if="showNoTasksFound">No tasks found.</q-banner>
+
+        <q-scroll-area class="q-scroll-area-tasks">
+          <no-tasks v-if="showNoTasks"/>
+          <tasks-todo :tasks="tasksTodo" class="q-mt-lg"/>
+          <tasks-completed :tasks="tasksCompleted" class="q-mb-xl" :class="{'q-mt-lg': !this.settings.showTasksInOneList }"/>
+        </q-scroll-area>
+
+        <div class="absolute-bottom text-center q-mb-lg no-pointer-events">
+          <q-btn round size="24px" icon="add" color="primary" class="all-pointer-events" @click="showDialog = true"></q-btn>
+        </div>
       </div>
+    </template>
 
-      <q-banner class="bg-grey-3 no-tasks" v-if="showNoTasksFound">No tasks found.</q-banner>
-
-      <q-scroll-area class="q-scroll-area-tasks">
-        <no-tasks v-if="showNoTasks"/>
-        <tasks-todo :tasks="tasksTodo" class="q-mt-lg"/>
-        <tasks-completed :tasks="tasksCompleted" class="q-mb-xl" :class="{'q-mt-lg': !this.settings.showTasksInOneList }"/>
-      </q-scroll-area>
-
-      <div class="absolute-bottom text-center q-mb-lg no-pointer-events">
-        <q-btn round size="24px" icon="add" color="primary" class="all-pointer-events" @click="showDialog = true"></q-btn>
-      </div>
-    </div>
+    <template v-if="!tasksDownloaded">
+      <span class="absolute-center">
+        <q-spinner color="primary" size="3em"/>
+      </span>
+    </template>
 
     <q-dialog v-model="showDialog">
       <task-form @close="showDialog = false"/>
@@ -45,7 +53,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('tasks', ['tasksTodo', 'tasksCompleted', 'search']),
+    ...mapGetters('tasks', ['tasksTodo', 'tasksCompleted', 'search', 'tasksDownloaded']),
     ...mapGetters('settings', ['settings']),
     showNoTasks() {
       return !Object.keys(this.tasksTodo).length && !this.search 

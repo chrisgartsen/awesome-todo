@@ -1,12 +1,14 @@
 import Vue from 'vue'
-import { uid } from 'quasar'
+import { uid, Notify } from 'quasar'
 
 import { firebaseDB, firebaseAuth } from 'boot/firebase'
+import { showErrorMessage } from 'src/utils/function-show-error'
 
 const state = {
   tasks: {},
   search: '',
-  sort: 'name'
+  sort: 'name',
+  tasksDownloaded: false
 }
 
 const getters = {
@@ -65,6 +67,9 @@ const getters = {
   },
   sort(state) {
     return state.sort
+  },
+  tasksDownloaded(state) {
+    return state.tasksDownloaded
   }
 }
 
@@ -78,29 +83,51 @@ const mutations = {
   createTask(state, payload) {
     Vue.set(state.tasks, payload.id, payload.task)
   },
+  clearTasks(state) {
+    state.tasks = {}
+  },
   setSearch(state, value) {
     state.search = value
   },
   setSort(state, value) {
     state.sort = value
+  },
+  setTasksDownloaded(state, value) {
+    state.tasksDownloaded = value
   }
 }
 
 const actions = {
-  updateTask({}, payload) {
-    const userId = firebaseAuth.currentUser.uid
-    const ref = firebaseDB.ref('tasks/' + userId + '/' + payload.id)
-    ref.update(payload.updates)
+  async updateTask({}, payload) {
+    try {
+      const userId = firebaseAuth.currentUser.uid
+      const ref = firebaseDB.ref('tasks/' + userId + '/' + payload.id)
+      await ref.update(payload.updates)
+      const keys = Object.keys(payload.updates)
+      if(!(keys.includes('completed') && keys.length == 1)) Notify.create("Task updated")
+    } catch (error) {
+      showErrorMessage(error.message)
+    }
   },
-  deleteTask({}, id) {
-    const userId = firebaseAuth.currentUser.uid
-    const ref = firebaseDB.ref('tasks/' + userId + '/' + id)
-    ref.remove()
+  async deleteTask({}, id) {
+    try {
+      const userId = firebaseAuth.currentUser.uid
+      const ref = firebaseDB.ref('tasks/' + userId + '/' + id)
+      await ref.remove()
+      Notify.create("Task deleted")
+    } catch(error) {
+      showErrorMessage(error.message) 
+    }
   },
-  createTask({}, task) {
-    const userId = firebaseAuth.currentUser.uid
-    const ref = firebaseDB.ref('tasks/' + userId + '/' + uid())
-    ref.set(task)
+  async createTask({}, task) {
+    try {
+      const userId = firebaseAuth.currentUser.uid
+      const ref = firebaseDB.ref('tasks/' + userId + '/' + uid())
+      await ref.set(task)
+      Notify.create("Task added")
+    } catch(error) {
+      showErrorMessage(error.message)      
+    }
   },
   setSearch({commit}, value) {
     commit('setSearch', value)
@@ -111,6 +138,12 @@ const actions = {
   fbReadData({commit}) {
     const userTasks = firebaseDB.ref('tasks/' + firebaseAuth.currentUser.uid)
     
+    userTasks.once('value', (snapshot) => {
+      commit('setTasksDownloaded', true)
+    }, (error) => {
+      showErrorMessage(error.message)
+    })
+
     userTasks.on('child_added', (snapshot) => {
       const task = snapshot.val()
       commit('createTask', { id: snapshot.key, task: task })
