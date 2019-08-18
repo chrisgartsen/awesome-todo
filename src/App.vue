@@ -13,3 +13,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+  .auth-error {
+    color: red;
+  }
+</style>
