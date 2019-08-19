@@ -6,7 +6,7 @@
              label="Name" 
              v-select-all
              :rules="[val => !!val || 'Name is required']" 
-             autofocus 
+             v-autofocus 
              clearable
              outlined />
   </div>
@@ -14,6 +14,7 @@
 
 <script>
 import { selectAll } from 'src/utils/directive-select-all'
+import { autofocus } from 'src/utils/directive-autofocus'
 
 export default {
   name: 'modal-task-name',
@@ -23,7 +24,8 @@ export default {
     }
   },
   directives: {
-    selectAll
+    selectAll,
+    autofocus
   }
 }
 </script>
