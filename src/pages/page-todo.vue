@@ -80,13 +80,3 @@ export default {
 }
 </script>
 
-<style>
-  .text-strikethrough {
-    text-decoration: line-through;
-  }
-
-  .q-scroll-area-tasks {
-    display: flex;
-    flex-grow: 1;
-  }
-</style>

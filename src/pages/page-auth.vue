@@ -43,10 +43,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.auth-tabs {
-  max-width: 500px;
-  margin: 0 auto;
-}
-</style>

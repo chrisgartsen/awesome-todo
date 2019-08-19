@@ -17,9 +17,3 @@ export default {
   name: 'no-tasks'
 }
 </script>script
-
-<style lang="scss">
-  .no-tasks {
-    border-radius: 5px;
-  }
-</style>

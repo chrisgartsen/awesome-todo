@@ -60,11 +60,3 @@ export default {
   }
 }
 </script>
-
-<style>
-  @media screen and (min-width: 768px) {
-    .q-footer {
-      display: none;
-    }
-  }
-</style>

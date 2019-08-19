@@ -34,9 +34,3 @@ export default {
   }
 }
 </script>
-
-<style >
-.sort-selector {
-  flex: 0 0 112px;
-}
-</style>
